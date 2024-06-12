@@ -22,21 +22,21 @@ echo "Connected successfully";
 <html>
 <head>
 <title>Login</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style2.css">
 </head>
 <body>
 
 <div class="login_container">
-    <img src="image/red_car.png" alt="red car" class="main_image">
+    <img src="image/AGM.png" alt="AGM" class="main_image">
     <h1 class="Main_heading">All Good Machinery</h1>
 
-    <div class="button">
+    <div >
         
-        <form method="POST" action="items.php"> <input type="submit" value="View Items"/></form><br><br>
+        <form method="POST" action="items_only.php" > <input type="submit" value="View Items" class="login_button"/></form><br><br>
 
-        <form method="POST" action="customer.php"> <input type="submit" value="Customer login"/></form><br><br>
+        <form method="POST" action="standard_user.php"> <input type="submit" value="Customer login" class="login_button"/></form><br><br>
 
-        <form method="POST" action="administrator.php"> <input type="submit" value="Administrator Login"/></form><br><br>
+        <form method="POST" action="administrator.php"> <input type="submit" value="Administrator Login" class="login_button"/></form><br><br>
     </div>
 
 
