@@ -2,6 +2,20 @@
 session_start();
 
 
+$servername = "192.168.254.128";
+$username = "User";
+$password = "Pass1234";
+$DB = "all_good_machinery";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $DB);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+
 
     //validation for name
     $loginErr="";
@@ -36,7 +50,7 @@ session_start();
         if (empty($nameErr) && empty($emailErr) && empty($passwordErr) && empty($phoneErr)) {
             // All fields are filled, redirect to second page
             $_SESSION['name'] = $name;
-            header("Location: confirmation.php");
+            header("Location: selection_admin.php");
             exit();
         }
 }
@@ -70,7 +84,7 @@ session_start();
     <span style="color:red"><?php echo($passwordErr)?> </span>
     <br><br>
 
-    <button type="submit" class="btn">Login</button><br><br>
+    <button type="submit" class="button">Login</button><br><br>
 </form>
 
 
