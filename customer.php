@@ -2,50 +2,31 @@
 session_start();
 
 
+$servername = "192.168.254.128";
+$username = "User";
+$password = "Pass1234";
+$DB = "all_good_machinery";
 
-    //validation for name
-    $loginErr="";
-    $nameErr = $passwordErr = "";
-    $name = $password  = "";
+// Create connection
+$conn = new mysqli($servername, $username, $password, $DB);
 
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-     //validation for name
-        if (empty($_POST["name"])) {
-            $nameErr = "* Name is required*";
-        } else{
-            $name = $_POST["name"];
-            // check if name only contains letters and whitespace
-            if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
-                $nameErr = "* Only letters and white space allowed*";
-            }
-        }   
-
-        // Validation for password
-        if (empty($_POST["password"])) {
-                $passwordErr = "* Password is required";
-        } else {
-            $password = $_POST["password"];
-            // Check if the password meets the criteria
-            if (strlen($password) < 8 || !preg_match("/[0-9]/", $password)) {
-                   $passwordErr = "* Password must be at least 8 characters and contain at least one number*";
-            }
-        }
-
-
-        if (empty($nameErr) && empty($emailErr) && empty($passwordErr) && empty($phoneErr)) {
-            // All fields are filled, redirect to second page
-            $_SESSION['name'] = $name;
-            $_SESSION['TBL_Login_ID'] = true;
-            header("Location: items.php");
-            exit();
-        }
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
 }
+echo "Connected successfully";
 
+
+ 
 ?>
-
+ 
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Page</title>
+    <link rel="stylesheet" href="style2.css">
 </head>
 <style>
     .form{
@@ -55,33 +36,65 @@ session_start();
 </style>
 <body>
 
+<div class="container">
+            <?php
 
-<div class="form">
+            $select= mysqli_query($conn, "SELECT tbl_rental.TBL_Rental_ID, tbl_client.TBL_Client_Name, tbl_rental.tbl_category, tbl_rental.tbl_rental_start, tbl_rental.tbl_rental_end
+            FROM tbl_rental
+            INNER JOIN tbl_client ON tbl_rental.TBL_Rental_ID=tbl_client.TBL_Client_ID;");
 
-<h1>User Login</h1>
+            ?>
+            <h1 class="header_view">Customer Information</h1>
+            
 
-<form action="" method="POST">
-    <p style="color:red"><?php echo($loginErr)?> </p>
+            <div class="container">
+            <a href="selection_admin.php" class="back_button">Go back</a>
+            <div class="product-display">
+            
+                <table class="product-display-table">
+                
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Customer Name</th>
+                            <th>Products</th>
+                            <th>Start Date </th>
+                            <th>End date</th>
+                        </tr>
+                    </thead>
+                    
+                    <?php
 
-    <input name="name" type="text" placeholder="Username"/><br>
-    <span style="color:red"><?php echo($nameErr)?> </span>
-    <br><br>
+                        while($row = mysqli_fetch_assoc($select)){      
 
-    <input name="password" type="password" placeholder="Password"/><br>
-    <span style="color:red"><?php echo($passwordErr)?> </span>
-    <br><br>
+                    ?>
 
-    <button type="submit" class="btn">Login</button><br><br>
-</form>
+                    <tr>
+                        <td><?php echo $row['TBL_Rental_ID']; ?></td>
+                        <td><?php echo $row['TBL_Client_Name']; ?></td>
+                        <td><?php echo $row['tbl_category']; ?></td>
+                        <td><?php echo $row['tbl_rental_start']; ?></td>
+                        <td><?php echo $row['tbl_rental_end']; ?></td>
+            
+                    </tr>
+
+                    <?php }?>
+
+                </table>
+
+                
+
+            </div>
+
+        </div>
+
+        
+
+
+
 
 
 </div>
-
-
-
-
-
-
 
 
 
